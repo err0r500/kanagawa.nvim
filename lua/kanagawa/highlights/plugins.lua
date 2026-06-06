@@ -45,7 +45,7 @@ function M.setup(colors, config)
         TelescopeResultsVariable = { link = "@variable" },
         -- NvimTree
         NvimTreeNormal = { link = "Normal" },
-        NvimTreeNormalNC = { link = "NvimTreeNormal" },
+        NvimTreeNormalNC = { link = "NormalNC" },
         NvimTreeRootFolder = { fg = theme.syn.identifier, bold = true },
         NvimTreeGitDirty = { fg = theme.vcs.changed },
         NvimTreeGitNew = { fg = theme.vcs.added },

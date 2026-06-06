@@ -7,6 +7,13 @@ function M.setup(colors, config)
     local theme = colors.theme
     config = config or require("kanagawa").config
 
+    -- Under dimInactive the active editor drops to bg_dim, which is nearly the
+    -- same shade as the default (darker) float bg — popups like LSP hover then
+    -- blend into the editor. Lift floats to a clearly raised surface so they
+    -- still stand out above the dimmed active panel.
+    local float_bg = config.dimInactive and theme.ui.bg or theme.ui.float.bg
+    local float_border_bg = config.dimInactive and theme.ui.bg or theme.ui.float.bg_border
+
     return {
         -- ColorColumn	Used for the columns set with 'colorcolumn'.
         ColorColumn = { bg = theme.ui.bg_p1 },
@@ -74,17 +81,17 @@ function M.setup(colors, config)
         -- NonText		'@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
         NonText = { fg = theme.ui.nontext },
         -- Normal		Normal text.
-        Normal = { fg = theme.ui.fg, bg = not config.transparent and theme.ui.bg or "NONE" },
+        Normal = { fg = theme.ui.fg, bg = not config.transparent and (config.dimInactive and theme.ui.bg_dim or theme.ui.bg) or "NONE" },
         -- NormalFloat	Normal text in floating windows.
-        NormalFloat = { fg = theme.ui.float.fg, bg = theme.ui.float.bg },
+        NormalFloat = { fg = theme.ui.float.fg, bg = float_bg },
         -- FloatBorder	Border of floating windows.
-        FloatBorder = { fg = theme.ui.float.fg_border, bg = theme.ui.float.bg_border },
+        FloatBorder = { fg = theme.ui.float.fg_border, bg = float_border_bg },
         -- FloatTitle	Title of floating windows.
-        FloatTitle = { fg = theme.ui.special, bg = theme.ui.float.bg_border, bold = true },
+        FloatTitle = { fg = theme.ui.special, bg = float_border_bg, bold = true },
         -- FloatFooter	Footer of floating windows.
-        FloatFooter = { fg = theme.ui.nontext, bg = theme.ui.float.bg_border },
+        FloatFooter = { fg = theme.ui.nontext, bg = float_border_bg },
         -- NormalNC	Normal text in non-current windows.
-        NormalNC = config.dimInactive and { fg = theme.ui.fg_dim, bg = theme.ui.bg_dim } or { link = "Normal" },
+        NormalNC = config.dimInactive and { fg = theme.ui.fg_dim, bg = theme.ui.bg } or { link = "Normal" },
         -- Pmenu		Popup menu: Normal item.
         Pmenu = { fg = theme.ui.pmenu.fg, bg = theme.ui.pmenu.bg },
         -- PmenuSel	Popup menu: Selected item.
@@ -143,7 +150,7 @@ function M.setup(colors, config)
         -- WinBar		Window bar of current window.
         WinBar = { fg = theme.ui.fg_dim, bg = "NONE" },
         -- WinBarNC	Window bar of not-current windows.
-        WinBarNC = { fg = theme.ui.fg_dim, bg = config.dimInactive and theme.ui.bg_dim or "NONE" },
+        WinBarNC = { fg = theme.ui.fg_dim, bg = config.dimInactive and theme.ui.bg or "NONE" },
 
         -- SignColumnSB = { link = "SignColumn" },
         -- NormalSB = { link = "Normal" },
